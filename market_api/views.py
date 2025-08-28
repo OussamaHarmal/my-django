@@ -13,9 +13,11 @@ from io import BytesIO
 
 import arabic_reshaper
 from bidi.algorithm import get_display
+import os
 
-# تسجيل الخط العربي
-pdfmetrics.registerFont(TTFont('Arabic', r"C:\Users\dell\Desktop\projet complet\market_admin\Khalid Art bold Regular.ttf"))
+# تسجيل الخط العربي بمسار نسبي
+font_path = os.path.join(os.path.dirname(__file__),"products" ,"Khalid Art bold Regular.ttf")
+pdfmetrics.registerFont(TTFont('Arabic', font_path))
 
 def rtl(text):
     reshaped = arabic_reshaper.reshape(text)
@@ -25,7 +27,6 @@ def rtl(text):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
@@ -111,5 +112,5 @@ class OrderViewSet(viewsets.ModelViewSet):
         buffer.close()
 
         response = HttpResponse(pdf, content_type="application/pdf")
-        response['Content-Disposition'] = f'attachment; filename=\"invoice_{order.id}.pdf\"'
+        response['Content-Disposition'] = f'attachment; filename="invoice_{order.id}.pdf"'
         return response

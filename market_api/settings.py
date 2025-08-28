@@ -85,10 +85,12 @@ WSGI_APPLICATION = 'market_api.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default="postgres://market_o3tk_user:RfIWzgdzn0595FWPAtKqUfmYbuWdAU6q@dpg-d2obk056ubrc73elegcg-a:5432/market_o3tk"
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
 
 
 
@@ -134,4 +136,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 

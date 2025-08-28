@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'market_api.wsgi.application'
 
 import dj_database_url
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default="postgres://market_o3tk_user:RfIWzgdzn0595FWPAtKqUfmYbuWdAU6q@dpg-d2obk056ubrc73elegcg-a:5432/market_o3tk"
+    )
 }
 
 

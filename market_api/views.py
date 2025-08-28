@@ -15,18 +15,17 @@ import arabic_reshaper
 from bidi.algorithm import get_display
 import os
 
-# تسجيل الخط العربي بمسار نسبي
-font_path = os.path.join(os.path.dirname(__file__),"products" ,"Khalid Art bold Regular.ttf")
-pdfmetrics.registerFont(TTFont('Arabic', font_path))
 
 def rtl(text):
     reshaped = arabic_reshaper.reshape(text)
     bidi_text = get_display(reshaped)
     return bidi_text
 
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
@@ -35,6 +34,17 @@ class OrderViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def pdf(self, request, pk=None):
         order = self.get_object()
+
+        # ⬇️ تسجيل الخط غير هنا
+        font_path = os.path.join(
+            os.path.dirname(__file__),
+            "products",
+            "Khalid Art bold Regular.ttf"
+        )
+        if os.path.exists(font_path):
+            pdfmetrics.registerFont(TTFont("Arabic", font_path))
+        else:
+            return HttpResponse("❌ الخط غير موجود", status=500)
 
         buffer = BytesIO()
         width, height = 80 * mm, 200 * mm
@@ -99,18 +109,4 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         # Footer
         p.line(x_margin, y, width - x_margin, y)
-        y -= 12
-        p.setFont("Arabic", 9)
-        p.drawCentredString(width / 2, y, rtl("شكرا لاختياركم متجر آتاي!"))
-        y -= 12
-        p.drawCentredString(width / 2, y, rtl("الذوق الأصيل… من الطبيعة إلى بابكم"))
-
-        p.showPage()
-        p.save()
-
-        pdf = buffer.getvalue()
-        buffer.close()
-
-        response = HttpResponse(pdf, content_type="application/pdf")
-        response['Content-Disposition'] = f'attachment; filename="invoice_{order.id}.pdf"'
-        return response
+        y

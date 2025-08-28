@@ -250,6 +250,8 @@ zopfli==0.2.3.post1
 zstandard==0.23.0
 pywin32==310; sys_platform == "win32"
 pywin32-ctypes==0.2.3
-pywinpty==2.0.15
+pywinpty==2.0.15; sys_platform == "win32"
+
+
 
 

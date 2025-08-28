@@ -16,7 +16,7 @@ from bidi.algorithm import get_display
 import os
 
 # تسجيل الخط العربي بمسار نسبي
-font_path = os.path.join(os.path.dirname(__file__), "products", "Khalid Art bold Regular.ttf")
+font_path = os.path.join(os.path.dirname(__file__), "Khalid Art bold Regular.ttf")
 pdfmetrics.registerFont(TTFont('Arabic', font_path))
 
 def rtl(text):
@@ -114,3 +114,4 @@ class OrderViewSet(viewsets.ModelViewSet):
         response = HttpResponse(pdf, content_type="application/pdf")
         response['Content-Disposition'] = f'attachment; filename="invoice_{order.id}.pdf"'
         return response
+

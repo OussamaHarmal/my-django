@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from products.views import ProductViewSet, OrderViewSet
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import RedirectView
+from django.http import HttpResponse   # ✅ ضروري تستورد هادي
 
 # Router ديال الـ API
 router = DefaultRouter()
@@ -14,7 +14,7 @@ router.register(r'orders', OrderViewSet, basename="order")
 
 # View باش root / يرجع رسالة بسيطة
 def home(request):
-    return HttpResponse("مرحباً بك في متجر آتاي! زور /api/ باش تشوف الـ API.")
+    return HttpResponse("مرحباً بك في متجر آتاي! 🚀 تيكرو /api/ باش تشوف الـ API.")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
